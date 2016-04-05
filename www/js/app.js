@@ -25,7 +25,7 @@ angular.module('weatherApp', [])
          	$scope.icon = response.weather[0].id;
             $scope.windspeed = response.wind.speed;
             $scope.winddir = Math.round(response.wind.deg);
-            windAngle = response.wind.deg - 45;
+            windAngle = response.wind.deg;
             $('#windir-icon').css({transform: 'rotate(' + windAngle + 'deg)'});
          }
 

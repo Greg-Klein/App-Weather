@@ -10,19 +10,6 @@ $menu-duration: 0.3s;
 	Bases
 \*--------------------*/
 
-@font-face {
-    font-family: 'Icons';
-    src: url('artill_clean_icons-webfont.eot');
-    src: url('artill_clean_icons-webfont.eot?#iefix') format('embedded-opentype'),
-         url('artill_clean_icons-webfont.woff2') format('woff2'),
-         url('artill_clean_icons-webfont.woff') format('woff'),
-         url('artill_clean_icons-webfont.ttf') format('truetype'),
-         url('artill_clean_icons-webfont.svg#artill_clean_weather_iconsRg') format('svg');
-    font-weight: normal;
-    font-style: normal;
-
-}
-
 * { 
 	@include box-sizing(border-box);
 	margin: 0;
@@ -30,6 +17,8 @@ $menu-duration: 0.3s;
 }
 
 .container {
+  	display: flex;
+  	flex-direction: column;
 	width: 100%;
 	position: absolute;
 	top: 0;
@@ -205,10 +194,13 @@ $menu-duration: 0.3s;
 \*--------------------*/
 
 #weather {
+  	display: flex;
+  	flex-direction: column;
+  	justify-content: space-between;
 	width: 100%;
 	position: absolute;
 	top: 60px;
-	bottom: 100px;
+	bottom: 200px;
 	left: 0;
 	right: 0;
 	text-align: center;
@@ -233,13 +225,8 @@ $menu-duration: 0.3s;
 }
 
 .weather__center-block {
-	position: absolute;
-	top: 100px;
-	left: 50%;
-
+  	width: 100%;
 	text-align: center;
-
-	@include transform(translateX(-50%));
 }
 
 .weather__center-block__temp{
@@ -251,15 +238,7 @@ $menu-duration: 0.3s;
 .weather__center-block__icon{
 	display: inline-block;
 	padding: 0;
-	font-family: 'owfont';
-	font-size: 30px;
-	vertical-align: middle;
-}
-
-.weather__center-block__description {
-	display: inline-block;
-	font-size: 20px;
-	line-height: 20px;
+	font-size: 3em;
 	vertical-align: middle;
 }
 
@@ -268,8 +247,8 @@ $menu-duration: 0.3s;
 \*--------------------*/
 
 #details{
-	position: absolute;
-	bottom: 110px;
+  	display: flex;
+  	justify-content: space-around;
 	width: 100%;
 	text-align: center;
 
@@ -278,37 +257,34 @@ $menu-duration: 0.3s;
 	padding: 0 20px;
 }
 
-.details__icon{
-	font-family: 'Icons';
-	font-size: 50px;
-}
-
 .details__wind, .details__temp {
-	width: 50%;
 	height: 100px;
-	float: left;
 
 	p{
-		margin: 0;
+		margin: 5px 0;
 		padding: 0;
+	  text-align: left;
 	}
 }
 
 .windir-icon {
 	display: inline-block;
-	transform: rotate(-45deg);
 }
 
 /*--------------------*\
 	Forecast
 \*--------------------*/
 
+#forecast {
+  display: flex;
+  position: absolute;
+  bottom: 60px;
+  width: 100%;
+}
+
 .forecast__panel {
-	position: absolute;
-	bottom: 100px;
-	left: 0;
-	right: 0;
-	height: 80px;
+  	width: 100%;
+	height: 120px;
 }
 
 .forecast__day {
@@ -331,7 +307,12 @@ $menu-duration: 0.3s;
 	}
 
 	i {
-		font-family: 'owfont';
-		font-size: 2em;
+	  display: block;
+	  margin: 5px 0;
+	  font-size: 2em;
+	}
+
+  	li {
+	  padding: 10px 0;
 	}
 }
