@@ -1,0 +1,12 @@
+
+# Created by https://www.gitignore.io/api/sass
+
+### Sass ###
+www/.sass-cache/
+*.css.map
+
+
+### Cordova ###
+plugins/
+platforms/
+hooks/
