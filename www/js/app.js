@@ -2,19 +2,23 @@ document.addEventListener('Deviceready', function(){
 
 }, false);
 
+$( document ).ready(function() {
+
+});
+
 angular.module('weatherApp', [])
 	.controller('WeatherCtrl', function($scope, $http) {
          $scope.search = function(){
+
          	if (typeof $scope.city != 'undefined'){
          		localStorage.setItem("city", $scope.city);
          	} else {
-         		$scope.city = 'Paris,FR';
+         		$scope.city = 'Paris, Fr';
 				localStorage.setItem("city", $scope.city);
          	}
-         	
+         	        	
          	var dayUrl = "http://api.openweathermap.org/data/2.5/weather?q="+$scope.city+"&mode=json&units=metric&lang=fr&appid=87339c1e2bfc638b2ccf1f54938d2f7b";
          	var forecastUrl = "http://api.openweathermap.org/data/2.5/forecast/daily?q="+$scope.city+"&type=accurate&mode=json&units=metric&cnt=6&lang=fr&appid=87339c1e2bfc638b2ccf1f54938d2f7b";
-            $scope.loader = true;
          	$http.get(dayUrl)
 				.success(function(response){
 					$scope.currenttemp = response.main.temp;
@@ -31,7 +35,6 @@ angular.module('weatherApp', [])
 
          	$http.get(forecastUrl)
 				.success(function(response){
-					$scope.loader = false;
 					$scope.date = new Date();
 					$scope.cityname = response.city.name;
 					$scope.country = response.city.country;
@@ -42,13 +45,11 @@ angular.module('weatherApp', [])
 					$scope.day3 = response.list[3];
 					$scope.day4 = response.list[4];
 					$scope.day5 = response.list[5];
-				})
-				.error(HttpFail);
+				});
          }
 
          HttpFail = function(){
          	alert("Impossible de recuperer les donnees");
-         	$scope.loader = false;
          }
 
          $scope.Math = Math;
@@ -60,7 +61,3 @@ angular.module('weatherApp', [])
          $('#navbar').toggleClass('lighten');
 		 };
     });
-
-$( document ).ready(function() {
-
-});
