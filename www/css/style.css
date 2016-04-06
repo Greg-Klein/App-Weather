@@ -236,18 +236,17 @@
 #forecast {
   display: flex;
   position: absolute;
-  bottom: 60px;
+  bottom: 80px;
   width: 100%; }
 
 .forecast__panel {
+  display: flex;
   width: 100%;
   height: 120px; }
 
 .forecast__day {
-  position: relative;
-  float: left;
   width: 20%;
-  height: 80px;
+  height: 100px;
   list-style: none;
   text-align: center;
   padding: 10px 0;
