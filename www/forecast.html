@@ -1,0 +1,40 @@
+<section id="forecast">
+    <div class="forecast__panel">
+        <div class="forecast__day">
+            <p class="forecast__day-dayName" ng-bind="(forecast[1].dt * 1000) | date: 'EEE dd/MM'"></p>
+            <div class="forecast__day-left">
+                <i class="wi wi-owm-{{forecast[1].weather[0].id}}"></i>
+                <p ng-bind="Math.round(forecast[1].temp.min) + '&deg;C / ' + Math.round(forecast[1].temp.max) + '&deg;C'"></p>
+            </div>
+        </div>
+        <div class="forecast__day">
+            <p class="forecast__day-dayName" ng-bind="(forecast[2].dt * 1000) | date: 'EEE dd/MM'"></p>
+            <div class="forecast__day-left">
+                <i class="wi wi-owm-{{forecast[2].weather[0].id}}"></i>
+                <p ng-bind="Math.round(forecast[2].temp.min) + '&deg;C / ' + Math.round(forecast[2].temp.max) + '&deg;C'"></p>
+            </div>
+        </div>
+        <div class="forecast__day">
+            <p class="forecast__day-dayName" ng-bind="(forecast[3].dt * 1000) | date: 'EEE dd/MM'"></p>
+            <div class="forecast__day-left">
+                <i class="wi wi-owm-{{forecast[3].weather[0].id}}"></i>
+                <p ng-bind="Math.round(forecast[3].temp.min) + '&deg;C / ' + Math.round(forecast[3].temp.max) + '&deg;C'"></p>
+            </div>
+        </div>
+        <div class="forecast__day">
+            <p class="forecast__day-dayName" ng-bind="(forecast[4].dt * 1000) | date: 'EEE dd/MM'"></p>
+            <div class="forecast__day-left">
+                <i class="wi wi-owm-{{forecast[4].weather[0].id}}"></i>
+                <p ng-bind="Math.round(forecast[4].temp.min) + '&deg;C / ' + Math.round(forecast[4].temp.max) + '&deg;C'"></p>
+            </div>
+        </div>
+        <div class="forecast__day">
+            <p class="forecast__day-dayName" ng-bind="(forecast[5].dt * 1000) | date: 'EEE dd/MM'"></p>
+            <div class="forecast__day-left">
+                <i class="wi wi-owm-{{forecast[5].weather[0].id}}"></i>
+                <p ng-bind="Math.round(forecast[5].temp.min) + '&deg;C / ' + Math.round(forecast[5].temp.max) + '&deg;C'"></p>
+            </div>
+        </div>
+    </div>
+    <div class="nav-arrow-left"><a href="#/today"><i class="wi wi-direction-left"></i></a></div>
+</section> <!-- forecast -->
