@@ -10,3 +10,6 @@ www/.sass-cache/
 plugins/
 platforms/
 hooks/
+
+
+.idea/
