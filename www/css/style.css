@@ -11,6 +11,9 @@
   margin: 0;
   padding: 0; }
 
+a {
+  color: inherit; }
+
 .container {
   display: flex;
   flex-direction: column;
@@ -64,6 +67,18 @@
   -ms-transform: translate3D(0, 0, 0);
   -webkit-transform: translate3D(0, 0, 0);
   transform: translate3D(0, 0, 0); }
+
+.nav-arrow-right, .nav-arrow-left {
+  font-size: 2em;
+  position: fixed; }
+
+.nav-arrow-right {
+  bottom: 100px;
+  right: 20px; }
+
+.nav-arrow-left {
+  bottom: 10px;
+  left: 20px; }
 
 /*--------------------*\
 	Search Panel
@@ -142,25 +157,20 @@
   font-size: 20px;
   font-weight: 400; }
 
-.navbar__refresh {
+.navbar__refresh, .navbar__search {
   width: 60px;
   height: 60px;
   display: inline-block;
   position: absolute;
   right: 0;
   top: 0;
-  cursor: pointer;
-  background: url(../images/refresh-icon.png) center no-repeat; }
+  line-height: 60px;
+  text-align: center;
+  font-size: 2em;
+  cursor: pointer; }
 
 .navbar__search {
-  width: 60px;
-  height: 60px;
-  display: inline-block;
-  position: absolute;
-  right: 60px;
-  top: 0;
-  cursor: pointer;
-  background: url(../images/search-icon.png) center no-repeat; }
+  right: 60px; }
 
 /*--------------------*\
 	Weather
@@ -186,27 +196,28 @@
   font-size: 17px;
   text-align: left; }
 
-.weather__location__pin {
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  background: url(../images/pin.png) center no-repeat;
-  vertical-align: text-bottom; }
-
 .weather__center-block {
   width: 100%;
   text-align: center; }
 
+.weather__center-block-upper {
+  display: flex;
+  justify-content: center; }
+
 .weather__center-block__temp {
   padding: 0;
-  font-size: 100px;
-  font-weight: 100; }
+  margin-left: 10px;
+  font-size: 3em; }
 
 .weather__center-block__icon {
-  display: inline-block;
   padding: 0;
-  font-size: 3em;
+  font-size: 1.5em;
   vertical-align: middle; }
+
+.weather__center-block__desc {
+  text-transform: capitalize;
+  font-size: 2em;
+  font-weight: 100; }
 
 /*--------------------*\
 	Details
@@ -233,31 +244,30 @@
 /*--------------------*\
 	Forecast
 \*--------------------*/
-#forecast {
-  display: flex;
-  position: absolute;
-  bottom: 80px;
-  width: 100%; }
-
 .forecast__panel {
   display: flex;
-  width: 100%;
-  height: 120px; }
+  flex-direction: column;
+  width: 100%; }
 
 .forecast__day {
-  width: 20%;
-  height: 100px;
-  list-style: none;
-  text-align: center;
-  padding: 10px 0;
-  background-color: rgba(255, 255, 255, 0.3);
-  border: 1px solid rgba(153, 153, 153, 0.5); }
-  .forecast__day p {
-    font-size: 0.7em;
-    margin-bottom: 5px; }
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 18vh;
+  display: flex;
+  border: 1px solid rgba(255, 255, 255, 0.3); }
   .forecast__day i {
-    display: block;
-    margin: 5px 0;
-    font-size: 2em; }
-  .forecast__day li {
-    padding: 10px 0; }
+    font-size: 2em;
+    margin-bottom: 10px; }
+
+.forecast__day-dayName {
+  font-size: 1.5em;
+  font-weight: 100; }
+
+.forecast__day-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center; }
+  .forecast__day-left p {
+    font-size: 1em; }
