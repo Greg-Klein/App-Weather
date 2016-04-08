@@ -42,7 +42,8 @@ appWeather.controller('MainCtrl', function($scope) {
         }
 
         $scope.searchByPosition = function() {
-            $window.navigator.geolocation.getCurrentPosition(function(Position) {
+
+            function onSuccess(Position) {
                 var currentLongitude = Position.coords.longitude;
                 var currentLatitude = Position.coords.latitude;
                 var url = "https://maps.googleapis.com/maps/api/geocode/json?latlng="+currentLatitude+","+currentLongitude;
@@ -52,7 +53,13 @@ appWeather.controller('MainCtrl', function($scope) {
                         window.localStorage.setItem("AppWeatherCity", geoCity);
                         getWeather(geoCity);
                     });
-            })
+            }
+
+            function onError(error) {
+                alert('code: ' + error.code + '\n' + 'message: ' + error.message + '\n');
+            }
+
+            navigator.geolocation.watchPosition(onSuccess, onError, { timeout: 10000 });
         }
 
         $scope.Math = Math;
