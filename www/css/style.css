@@ -69,16 +69,17 @@ a {
   transform: translate3D(0, 0, 0); }
 
 .nav-arrow-right, .nav-arrow-left {
+  top: 50%;
   font-size: 2em;
-  position: fixed; }
+  position: fixed;
+  opacity: 0.3;
+  transform: translateY(-50%); }
 
 .nav-arrow-right {
-  bottom: 100px;
-  right: 20px; }
+  right: 10px; }
 
 .nav-arrow-left {
-  bottom: 10px;
-  left: 20px; }
+  left: 10px; }
 
 /*--------------------*\
 	Search Panel
@@ -166,7 +167,7 @@ a {
   top: 0;
   line-height: 60px;
   text-align: center;
-  font-size: 2em;
+  font-size: 1.5em;
   cursor: pointer; }
 
 .navbar__search {
@@ -253,7 +254,7 @@ a {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  height: 18vh;
+  height: 20vh;
   display: flex;
   border: 1px solid rgba(255, 255, 255, 0.3); }
   .forecast__day i {

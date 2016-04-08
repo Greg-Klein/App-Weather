@@ -78,18 +78,19 @@ a {
 }
 
 .nav-arrow-right, .nav-arrow-left {
+  top: 50%;
   font-size: 2em;
   position: fixed;
+  opacity: 0.3;
+  transform: translateY(-50%);
 }
 
 .nav-arrow-right {
-  bottom: 100px;
-  right: 20px;
+  right: 10px;
 }
 
 .nav-arrow-left {
-  bottom: 10px;
-  left: 20px;
+  left: 10px;
 }
 
 /*--------------------*\
@@ -195,7 +196,7 @@ a {
 	top: 0;
   	line-height: 60px;
   	text-align: center;
-  	font-size: 2em;
+  	font-size: 1.5em;
 	cursor: pointer;
 }
 
@@ -301,7 +302,7 @@ a {
   	display: flex;
   	justify-content: space-around;
   	align-items: center;
-  	height: 18vh;
+  	height: 20vh;
   	display: flex;
 
 
