@@ -12,12 +12,17 @@ appWeather.controller('MainCtrl', function($scope) {
                     $scope.currenttemp = response.main.temp;
                     $scope.description = response.weather[0].description;
                     $scope.icon = response.weather[0].id;
-                    $scope.windspeed = response.wind.speed;
+                    $scope.windspeed = Math.round(((response.wind.speed * 18) / 5) * 10) / 10;
                     windAngle = Math.round(response.wind.deg);
                     $scope.winddir = windAngle;
                     $('#windir-icon').css({transform: 'rotate(' + windAngle + 'deg)'});
                     $scope.humidity = response.main.humidity;
                     $scope.pressure = response.main.pressure;
+                    if($scope.windspeed >= 80) {
+                    	$("#windspeed").css({'color': 'red', 'font-weight': '400'});
+                    } else if($scope.windspeed >= 60) {
+                    	$("#windspeed").css({color: 'orange', 'font-weight': '400'});
+                    }
                 })
                 .error(function(){
                     alert("Impossible de recuperer les donnees");
