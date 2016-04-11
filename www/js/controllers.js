@@ -1,84 +1,53 @@
 appWeather.controller('MainCtrl', function($scope) {
     $scope.date = new Date();
 })
-.controller('TodayCtrl', function($scope, $http, $window) {
+.controller('TodayCtrl', function($scope, $http, LocateFactory, CurrentWeatherService) {
 
-        var getWeather = function(city) {
-            url = "http://api.openweathermap.org/data/2.5/weather?q="+city+"&mode=json&units=metric&lang=fr&appid=87339c1e2bfc638b2ccf1f54938d2f7b";
-            $http.get(url)
-                .success(function(response){
-                    $scope.cityname = response.name;
-                    $scope.country = response.sys.country;
-                    $scope.currenttemp = response.main.temp;
-                    $scope.description = response.weather[0].description;
-                    $scope.icon = response.weather[0].id;
-                    $scope.windspeed = Math.round(((response.wind.speed * 18) / 5) * 10) / 10;
-                    windAngle = Math.round(response.wind.deg);
-                    $scope.winddir = windAngle;
-                    $('#windir-icon').css({transform: 'rotate(' + windAngle + 'deg)'});
-                    $scope.humidity = response.main.humidity;
-                    $scope.pressure = response.main.pressure;
-                    if($scope.windspeed >= 80) {
-                    	$("#windspeed").css({'color': 'red', 'font-weight': '400'});
-                    } else if($scope.windspeed >= 60) {
-                    	$("#windspeed").css({color: 'orange', 'font-weight': '400'});
-                    }
-                })
-                .error(function(){
-                    alert("Impossible de recuperer les donnees");
-                });
+        function getWeather(city) {
+            $scope.loading = true;
+            CurrentWeatherService.getWeather(city).then(function(weather){
+                $scope.today = weather;
+                $scope.loading = false;
+                $('#windir-icon').css({transform: 'rotate(' + Math.round($scope.today.wind.deg) + 'deg)'});
+            }, function(msg){
+                alert(msg);
+                $scope.loading = false;
+            });
         }
 
         $scope.search = function(){
 
-            var localStorageCity = window.localStorage.getItem("AppWeatherCity");
+            var storedCity = window.localStorage.getItem("AppWeatherCity");
 
             if (typeof $scope.city != 'undefined'){
                 window.localStorage.setItem("AppWeatherCity", $scope.city);
             } else {
-                if(localStorageCity == null){
+                if(storedCity == null){
                     $scope.city = 'Paris';
                     window.localStorage.setItem("AppWeatherCity", $scope.city);
                 } else {
-                    $scope.city = localStorageCity;
+                    $scope.city = storedCity;
                 }
             }
             getWeather($scope.city);
-        }
+        };
 
         $scope.searchByPosition = function() {
-
-            function onSuccess(Position) {
-                var currentLongitude = Position.coords.longitude;
-                var currentLatitude = Position.coords.latitude;
-                var url = "https://maps.googleapis.com/maps/api/geocode/json?latlng="+currentLatitude+","+currentLongitude;
-                $http.get(url)
-                    .success(function(response){
-                        var geoCity = response.results[0].address_components[2].short_name;
-                        window.localStorage.setItem("AppWeatherCity", geoCity);
-                        getWeather(geoCity);
-                    });
-            }
-
-            function onError(error) {
-                alert('code: ' + error.code + '\n' + 'message: ' + error.message + '\n');
-            }
-
-            navigator.geolocation.watchPosition(onSuccess, onError, { timeout: 10000 });
-        }
-
-        $scope.Math = Math;
-        $scope.search();
+            getWeather(LocateFactory.getCity()+","+LocateFactory.getCountry());
+        };
 
         $scope.toggleClass = function() {
             $(".slider").toggleClass("slide"),
                 $('#navbar').toggleClass('lighten');
         };
 
+        $scope.Math = Math;
+        $scope.search();
+
 })
 
 
-.controller('ForecastCtrl', function($scope, $http) {
+.controller('ForecastCtrl', function($scope, $http, $timeout, ForecastService) {
 
     var localStorageCity = window.localStorage.getItem("AppWeatherCity");
 
@@ -94,12 +63,13 @@ appWeather.controller('MainCtrl', function($scope) {
     }
 
     $scope.Math = Math;
+    $scope.loading = true;
+    $scope.forecast = ForecastService.getWeather($scope.city).then(function(weather){
+        $scope.forecast = weather.list;
+        $scope.loading = false;
+    }, function(msg){
+        alert(msg);
+        $scope.loading = false;
+    });
 
-    var forecastUrl = "http://api.openweathermap.org/data/2.5/forecast/daily?q=" + $scope.city + "&type=accurate&mode=json&units=metric&cnt=6&lang=fr&appid=87339c1e2bfc638b2ccf1f54938d2f7b";
-    $http.get(forecastUrl)
-        .success(function (response) {
-            $scope.cityname = response.city.name;
-            $scope.country = response.city.country;
-            $scope.forecast = response.list;
-        });
 });

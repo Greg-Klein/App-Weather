@@ -1,3 +1,6 @@
+<div class="loader" ng-show="loading">
+    <div class="spinner"></div>
+</div>
 <navigation id="navbar">
     <div class="navbar__title" ng-bind="date  | date:'EEE dd MMM yyyy'"></div>
     <i class="navbar__search fa fa-search" ng-click="toggleClass()"></i>
@@ -7,23 +10,23 @@
     <section id="weather">
         <div class="weather__location">
             <i class="fa fa-map-marker"></i>
-            <span class="weather__location__city" ng-bind="cityname+', '+country"></span>
+            <span class="weather__location__city" ng-bind="today.name+', '+today.sys.country"></span>
         </div>
         <div class="weather__center-block">
             <div class="weather__center-block-upper">
-                <span class="weather__center-block__icon"><i class="wi wi-owm-{{icon}}"></i></span>
-                <span class="weather__center-block__temp" ng-show="currenttemp" ng-bind="Math.round(currenttemp)+'&deg;C'"></span>
+                <span class="weather__center-block__icon"><i class="wi wi-owm-{{today.weather[0].id}}"></i></span>
+                <span class="weather__center-block__temp" ng-bind="Math.round(today.main.temp)+'&deg;C'"></span>
             </div>
-            <div class="weather__center-block__desc" ng-bind="description"></div>
+            <div class="weather__center-block__desc" ng-bind="today.weather[0].description"></div>
         </div>
         <div id="details">
             <div class="details__wind">
-                <p id="windspeed"><i class="wi wi-small-craft-advisory"></i><span ng-bind="' '+windspeed+' km/h'"></span></p>
-                <p><i id="windir-icon" class="wi wi-wind towards-0-deg windir-icon"></i><span ng-bind="' '+winddir+' deg'"></span></p>
+                <p><i class="wi wi-small-craft-advisory"></i><span ng-bind="' '+today.wind.speed+' m/s'"></span></p>
+                <p><i id="windir-icon" class="wi wi-wind towards-0-deg windir-icon"></i><span ng-bind="' '+Math.round(today.wind.deg)+' deg'"></span></p>
             </div>
             <div class="details__temp">
-                <p><i class="wi wi-humidity"></i><span ng-bind="' '+humidity"></span></p>
-                <p><i class="wi wi-barometer"></i><span ng-bind="' '+pressure"></span></p>
+                <p><i class="wi wi-humidity"></i><span ng-bind="' '+today.main.humidity"></span></p>
+                <p><i class="wi wi-barometer"></i><span ng-bind="' '+today.main.pressure"></span></p>
             </div>
         </div>
     </section> <!-- weather -->
