@@ -21,7 +21,7 @@
         </div>
         <div id="details">
             <div class="details__wind">
-                <p><i class="wi wi-small-craft-advisory"></i><span ng-bind="' '+today.wind.speed+' m/s'"></span></p>
+                <p><i id="winspeed-icon" class="wi wi-small-craft-advisory"></i><span ng-bind="' '+today.wind.speed+' m/s'"></span></p>
                 <p><i id="windir-icon" class="wi wi-wind towards-0-deg windir-icon"></i><span ng-bind="' '+Math.round(today.wind.deg)+' deg'"></span></p>
             </div>
             <div class="details__temp">
