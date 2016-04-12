@@ -1,13 +1,14 @@
 appWeather.controller('MainCtrl', function($scope) {
     $scope.date = new Date();
 })
-.controller('TodayCtrl', function($scope, $http, LocateFactory, CurrentWeatherService) {
+.controller('TodayCtrl', function($scope, $http, $cordovaVibration, LocateFactory, CurrentWeatherService) {
 
         function getWeather(city) {
             $scope.loading = true;
             CurrentWeatherService.getWeather(city).then(function(weather){
                 $scope.today = weather;
                 $scope.loading = false;
+                $cordovaVibration.vibrate(100);
                 $('#windir-icon').css({transform: 'rotate(' + Math.round($scope.today.wind.deg) + 'deg)'});
             }, function(msg){
                 alert(msg);

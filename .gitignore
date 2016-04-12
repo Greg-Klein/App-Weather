@@ -13,3 +13,4 @@ hooks/
 
 ### Other ###
 .idea/
+node_modules

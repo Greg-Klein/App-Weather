@@ -6,4 +6,4 @@ $( document ).ready(function() {
 
 });
 
-var appWeather = angular.module('weatherApp', ['ui.router']);
+var appWeather = angular.module('weatherApp', ['ui.router', 'ngCordova', 'ngCordova.plugins']);
