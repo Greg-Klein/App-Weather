@@ -8,8 +8,12 @@ appWeather.controller('MainCtrl', function($scope) {
             CurrentWeatherService.getWeather(city).then(function(weather){
                 $scope.today = weather;
                 $scope.loading = false;
-                $cordovaVibration.vibrate(100);
+                var winspeed = weather.wind.speed;
+                if(winspeed >= 17){
+                	$('#winspeed-icon').css({color: 'orange'});
+                }
                 $('#windir-icon').css({transform: 'rotate(' + Math.round($scope.today.wind.deg) + 'deg)'});
+                $cordovaVibration.vibrate(100);
             }, function(msg){
                 alert(msg);
                 $scope.loading = false;
