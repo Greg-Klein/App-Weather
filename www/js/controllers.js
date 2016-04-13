@@ -8,13 +8,15 @@ appWeather.controller('MainCtrl', function($scope) {
             CurrentWeatherService.getWeather(city).then(function(weather){
                 $scope.today = weather;
                 $scope.loading = false;
-                var winspeed = weather.wind.speed;
-                if(winspeed >= 17){
-                	$('#winspeed-icon').css({color: 'orange'});
+                var windspeed = weather.wind.speed * 3.6;
+                if(windspeed >= 90){
+                	$('#windspeed-icon').css({color: 'red'});
+                } else if(windspeed >= 60){
+                	$('#windspeed-icon').css({color: 'orange'});
                 }
                 $('#windir-icon').css({transform: 'rotate(' + Math.round($scope.today.wind.deg) + 'deg)'});
-                $cordovaVibration.vibrate(100);
             }, function(msg){
+                $cordovaVibration.vibrate(100);
                 alert(msg);
                 $scope.loading = false;
             });
@@ -73,6 +75,7 @@ appWeather.controller('MainCtrl', function($scope) {
         $scope.forecast = weather.list;
         $scope.loading = false;
     }, function(msg){
+        $cordovaVibration.vibrate(100);
         alert(msg);
         $scope.loading = false;
     });
