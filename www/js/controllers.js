@@ -24,18 +24,13 @@ appWeather.controller('MainCtrl', function($scope) {
 
         $scope.search = function(){
 
-            var storedCity = window.localStorage.getItem("AppWeatherCity");
-
-            if (typeof $scope.city != 'undefined'){
+            if ($scope.city == undefined){
+            	$scope.city = window.localStorage.getItem("AppWeatherCity") || 'Paris';
                 window.localStorage.setItem("AppWeatherCity", $scope.city);
             } else {
-                if(storedCity == null){
-                    $scope.city = 'Paris';
-                    window.localStorage.setItem("AppWeatherCity", $scope.city);
-                } else {
-                    $scope.city = storedCity;
-                }
+            	window.localStorage.setItem("AppWeatherCity", $scope.city);
             }
+
             getWeather($scope.city);
         };
 
@@ -56,17 +51,11 @@ appWeather.controller('MainCtrl', function($scope) {
 
 .controller('ForecastCtrl', function($scope, $http, $timeout, ForecastService) {
 
-    var localStorageCity = window.localStorage.getItem("AppWeatherCity");
-
-    if (typeof $scope.city != 'undefined'){
+    if ($scope.city == undefined){
+    	$scope.city = window.localStorage.getItem("AppWeatherCity") || 'Paris';
         window.localStorage.setItem("AppWeatherCity", $scope.city);
     } else {
-        if(localStorageCity == null){
-            $scope.city = 'Paris';
-            window.localStorage.setItem("AppWeatherCity", $scope.city);
-        } else {
-            $scope.city = localStorageCity;
-        }
+    	window.localStorage.setItem("AppWeatherCity", $scope.city);
     }
 
     $scope.Math = Math;
