@@ -8,7 +8,7 @@ appWeather.controller('MainCtrl', function($scope) {
             CurrentWeatherService.getWeather(city).then(function(weather){
                 $scope.today = weather;
                 $scope.loading = false;
-                var windspeed = weather.wind.speed * 3.6;
+                var windspeed = Math.round(weather.wind.speed * 3.6);
                 if(windspeed >= 90){
                 	$('#windspeed-icon').css({color: 'red'});
                 } else if(windspeed >= 60){
@@ -38,11 +38,6 @@ appWeather.controller('MainCtrl', function($scope) {
             getWeather(LocateFactory.getCity()+","+LocateFactory.getCountry());
         };
 
-        $scope.toggleClass = function() {
-            $(".slider").toggleClass("slide"),
-                $('#navbar').toggleClass('lighten');
-        };
-
         $scope.Math = Math;
         $scope.search();
 
@@ -51,22 +46,26 @@ appWeather.controller('MainCtrl', function($scope) {
 
 .controller('ForecastCtrl', function($scope, $http, $timeout, ForecastService) {
 
-    if ($scope.city == undefined){
-    	$scope.city = window.localStorage.getItem("AppWeatherCity") || 'Paris';
-        window.localStorage.setItem("AppWeatherCity", $scope.city);
-    } else {
-    	window.localStorage.setItem("AppWeatherCity", $scope.city);
+    $scope.search = function() {
+        if ($scope.city == undefined){
+            $scope.city = window.localStorage.getItem("AppWeatherCity") || 'Paris';
+            window.localStorage.setItem("AppWeatherCity", $scope.city);
+        } else {
+            window.localStorage.setItem("AppWeatherCity", $scope.city);
+        }
+
+        $scope.Math = Math;
+        $scope.loading = true;
+        $scope.forecast = ForecastService.getWeather($scope.city).then(function(weather){
+            $scope.forecast = weather.list;
+            $scope.loading = false;
+        }, function(msg){
+            $cordovaVibration.vibrate(100);
+            alert(msg);
+            $scope.loading = false;
+        });
     }
 
-    $scope.Math = Math;
-    $scope.loading = true;
-    $scope.forecast = ForecastService.getWeather($scope.city).then(function(weather){
-        $scope.forecast = weather.list;
-        $scope.loading = false;
-    }, function(msg){
-        $cordovaVibration.vibrate(100);
-        alert(msg);
-        $scope.loading = false;
-    });
+    $scope.search();
 
 });

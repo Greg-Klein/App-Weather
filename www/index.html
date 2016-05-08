@@ -12,19 +12,100 @@
         <link rel="stylesheet" href="css/normalize.css">
         <link rel="stylesheet" type="text/css" href="css/weather-icons.min.css">
         <link rel="stylesheet" type="text/css" href="css/weather-icons-wind.min.css">
+        <link rel="stylesheet" type="text/css" href="css/swiper.min.css">
         <link rel="stylesheet" type="text/css" href="css/style.css">
         <title>KWeather</title>
     </head>
     <body>
-
-        <div class="container" ng-controller="MainCtrl">
-            <div ui-view></div>
+        <div class="window">
+            <div class="container swiper-container" ng-controller="MainCtrl">
+                <div class="loader" ng-show="loading">
+                    <div class="spinner"></div>
+                </div>
+                <navigation id="navbar">
+                    <div class="navbar__title" ng-bind="date  | date:'EEE dd MMM yyyy'"></div>
+                    <i class="navbar__search fa fa-search" onclick="toggleClass()"></i>
+                    <i class="navbar__refresh fa fa-location-arrow" ng-click="searchByPosition()"></i>
+                </navigation>
+                <div class="slider swiper-wrapper">
+                    <section id="weather" class="swiper-slide" ng-controller="TodayCtrl">
+                        <div class="weather__location">
+                            <i class="fa fa-map-marker"></i>
+                            <span class="weather__location__city" ng-bind="today.name+', '+today.sys.country"></span>
+                        </div>
+                        <div class="weather__center-block">
+                            <div class="weather__center-block-upper">
+                                <span class="weather__center-block__icon"><i class="wi wi-owm-{{today.weather[0].id}}"></i></span>
+                                <span class="weather__center-block__temp" ng-bind="Math.round(today.main.temp)+'&deg;C'"></span>
+                            </div>
+                            <div class="weather__center-block__desc" ng-bind="today.weather[0].description"></div>
+                        </div>
+                        <div id="details">
+                            <div class="details__wind">
+                                <p><i id="windspeed-icon" class="wi wi-small-craft-advisory windspeed-icon"></i><span ng-bind="' '+ Math.round(today.wind.speed * 3.6)+' km/h'"></span></p>
+                                <p><i id="windir-icon" class="wi wi-wind towards-0-deg windir-icon"></i><span ng-bind="' '+Math.round(today.wind.deg)+' deg'"></span></p>
+                            </div>
+                            <div class="details__temp">
+                                <p><i class="wi wi-humidity"></i><span ng-bind="' '+today.main.humidity"></span></p>
+                                <p><i class="wi wi-barometer"></i><span ng-bind="' '+today.main.pressure"></span></p>
+                            </div>
+                        </div>
+                        <div class="search-panel">
+                            <form class="search-form" ng-submit="search()">
+                                <input type="text" ng-model="city" onFocus="javascript:this.value=''">
+                                <input type="submit" onclick="toggleClass()">
+                            </form>
+                        </div>
+                    </section> <!-- weather -->
+                    <section id="forecast" class="swiper-slide" ng-controller="ForecastCtrl">
+                        <div class="forecast__day">
+                            <p class="forecast__day-dayName" ng-bind="(forecast[1].dt * 1000) | date: 'EEE dd/MM'"></p>
+                            <div class="forecast__day-left">
+                                <i class="wi wi-owm-{{forecast[1].weather[0].id}}"></i>
+                                <p ng-bind="Math.round(forecast[1].temp.min) + '&deg;C / ' + Math.round(forecast[1].temp.max) + '&deg;C'"></p>
+                            </div>
+                        </div>
+                        <div class="forecast__day">
+                            <p class="forecast__day-dayName" ng-bind="(forecast[2].dt * 1000) | date: 'EEE dd/MM'"></p>
+                            <div class="forecast__day-left">
+                                <i class="wi wi-owm-{{forecast[2].weather[0].id}}"></i>
+                                <p ng-bind="Math.round(forecast[2].temp.min) + '&deg;C / ' + Math.round(forecast[2].temp.max) + '&deg;C'"></p>
+                            </div>
+                        </div>
+                        <div class="forecast__day">
+                            <p class="forecast__day-dayName" ng-bind="(forecast[3].dt * 1000) | date: 'EEE dd/MM'"></p>
+                            <div class="forecast__day-left">
+                                <i class="wi wi-owm-{{forecast[3].weather[0].id}}"></i>
+                                <p ng-bind="Math.round(forecast[3].temp.min) + '&deg;C / ' + Math.round(forecast[3].temp.max) + '&deg;C'"></p>
+                            </div>
+                        </div>
+                        <div class="forecast__day">
+                            <p class="forecast__day-dayName" ng-bind="(forecast[4].dt * 1000) | date: 'EEE dd/MM'"></p>
+                            <div class="forecast__day-left">
+                                <i class="wi wi-owm-{{forecast[4].weather[0].id}}"></i>
+                                <p ng-bind="Math.round(forecast[4].temp.min) + '&deg;C / ' + Math.round(forecast[4].temp.max) + '&deg;C'"></p>
+                            </div>
+                        </div>
+                        <div class="forecast__day">
+                            <p class="forecast__day-dayName" ng-bind="(forecast[5].dt * 1000) | date: 'EEE dd/MM'"></p>
+                            <div class="forecast__day-left">
+                                <i class="wi wi-owm-{{forecast[5].weather[0].id}}"></i>
+                                <p ng-bind="Math.round(forecast[5].temp.min) + '&deg;C / ' + Math.round(forecast[5].temp.max) + '&deg;C'"></p>
+                            </div>
+                        </div>
+                    </section> <!-- forecast -->
+                </div> <!-- slider -->
+                <section class="swiper-slide">
+                    
+                </section>
+            </div>
         </div>
 
         <script src="js/vendor/jquery.min.js"></script>
+        <script src="js/vendor/swiper.jquery.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.18/angular-ui-router.min.js"></script>
-        <script src="cordova.js"></script>
+        <!-- <script src="cordova.js"></script> -->
         <script src="js/vendor/ng-cordova.min.js"></script>
         <script src="js/app.js"></script>
         <script src="js/controllers.js"></script>
