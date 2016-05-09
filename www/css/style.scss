@@ -20,16 +20,7 @@ a {
   color: inherit;
 }
 
-.container {
-  	display: flex;
-  	flex-direction: column;
-	width: 100%;
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-
+body {
 	margin: 0;
 	padding: 0;
 
@@ -45,8 +36,24 @@ a {
 	background: -ms-linear-gradient(-45deg, rgba(36,199,220,1) 0%, rgba(81,74,157,1) 100%);
 	background: linear-gradient(135deg, rgba(36,199,220,1) 0%, rgba(81,74,157,1) 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#24c7dc', endColorstr='#514a9d', GradientType=1 );
+}
 
-	overflow: hidden;
+#weather, #forecast {
+    height: calc(100vh - 60px);
+    margin-top: 60px;
+}
+#weather {
+    height: calc(100vh + 40px);
+    @include transition($menu-duration);
+}
+
+.container {
+    height: calc(100vh + 100px);
+}
+
+.window {
+    height: 100vh;
+    overflow-y: hidden;
 }
 
 .loader {
@@ -89,36 +96,8 @@ a {
   }
 }
 
-.slider {
-	position: absolute;
-	top: -100px;
-	bottom: 0;
-	left: 0;
-	right: 0;
-
-	@include transform(translate3D(0, 100px, 0));
-
-	@include transition($menu-duration);
-}
-
 .slide {
-	@include transform(translate3D(0, 0, 0));
-}
-
-.nav-arrow-right, .nav-arrow-left {
-  top: 50%;
-  font-size: 2em;
-  position: fixed;
-  opacity: 0.3;
-  transform: translateY(-50%);
-}
-
-.nav-arrow-right {
-  right: 10px;
-}
-
-.nav-arrow-left {
-  left: 10px;
+	transform: translate3D(0, -100px, 0) !important;
 }
 
 /*--------------------*\
@@ -126,10 +105,7 @@ a {
 \*--------------------*/
 
 .search-panel {
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	right: 0;
+	width: 100vw;
 	z-index: 100;
 
 	height: 100px;
@@ -199,10 +175,6 @@ a {
 	@include transition($menu-duration);
 }
 
-.lighten {
-	background-color: rgba(#fff, 0.3);
-}
-
 .navbar__title{
 	display: inline-block;
 	position: absolute;
@@ -240,12 +212,6 @@ a {
   	display: flex;
   	flex-direction: column;
   	justify-content: space-between;
-	width: 100%;
-	position: absolute;
-	top: 60px;
-	bottom: 200px;
-	left: 0;
-	right: 0;
 	text-align: center;
 }
 
@@ -324,17 +290,16 @@ a {
 	Forecast
 \*--------------------*/
 
-.forecast__panel {
-  	display: flex;
-  	flex-direction: column;
-  	width: 100%;
+#forecast {
+    display: flex;
+    flex-direction: column;
 }
 
 .forecast__day {
   	display: flex;
   	justify-content: space-around;
   	align-items: center;
-  	height: 20vh;
+  	height: 20%;
   	display: flex;
 
 
