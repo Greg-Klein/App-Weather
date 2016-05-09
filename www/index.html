@@ -2,7 +2,6 @@
 
 <html ng-app="weatherApp">
     <head>
-        <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *"> -->
         <meta name="format-detection" content="telephone=no">
         <meta name="msapplication-tap-highlight" content="no">
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
@@ -28,7 +27,7 @@
                     <i class="navbar__refresh fa fa-location-arrow" ng-click="searchByPosition()"></i>
                 </navigation>
                 <div class="slider swiper-wrapper">
-                    <section id="weather" class="swiper-slide" ng-controller="TodayCtrl">
+                    <section id="weather" class="swiper-slide">
                         <div class="weather__location">
                             <i class="fa fa-map-marker"></i>
                             <span class="weather__location__city" ng-bind="today.name+', '+today.sys.country"></span>
@@ -51,13 +50,13 @@
                             </div>
                         </div>
                         <div class="search-panel">
-                            <form class="search-form" ng-submit="search()">
+                            <form class="search-form" ng-submit="queryWeather()">
                                 <input type="text" ng-model="city" onFocus="javascript:this.value=''">
                                 <input type="submit" onclick="toggleClass()">
                             </form>
                         </div>
                     </section> <!-- weather -->
-                    <section id="forecast" class="swiper-slide" ng-controller="ForecastCtrl">
+                    <section id="forecast" class="swiper-slide">
                         <div class="forecast__day">
                             <p class="forecast__day-dayName" ng-bind="(forecast[1].dt * 1000) | date: 'EEE dd/MM'"></p>
                             <div class="forecast__day-left">
@@ -105,7 +104,7 @@
         <script src="js/vendor/swiper.jquery.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.18/angular-ui-router.min.js"></script>
-        <!-- <script src="cordova.js"></script> -->
+        <script src="cordova.js"></script>
         <script src="js/vendor/ng-cordova.min.js"></script>
         <script src="js/app.js"></script>
         <script src="js/controllers.js"></script>
