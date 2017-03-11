@@ -1,16 +1,25 @@
-
-# Created by https://www.gitignore.io/api/sass
+### ApacheCordova ###
+# Apache Cordova generated files and directories
+bin/*
+!/plugins
+!/plugins/android.json
+!/plugins/fetch.json
+plugins/*
+platforms/*
+hooks/*
+typings/*
 
 ### Sass ###
-www/.sass-cache/
+.sass-cache/
 *.css.map
 
-
-### Cordova ###
-plugins/
-platforms/
-hooks/
+### VisualStudioCode ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
 
 ### Other ###
 .idea/
-node_modules
+jsconfig.json

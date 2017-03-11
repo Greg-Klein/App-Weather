@@ -29,16 +29,39 @@ body {
   background: linear-gradient(135deg, #24c7dc 0%, #514a9d 100%);
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#24c7dc', endColorstr='#514a9d', GradientType=1 ); }
 
-#weather, #forecast {
+@keyframes preview {
+  0% {
+    transform: translateX(0); }
+  70% {
+    transform: translateX(-50px); }
+  100% {
+    transform: translateX(0); } }
+#weather,
+#forecast {
   height: calc(100vh - 60px);
   margin-top: 60px; }
 
 #weather {
-  height: calc(100vh + 40px);
-  -moz-transition: 0.3s;
-  -o-transition: 0.3s;
-  -webkit-transition: 0.3s;
-  transition: 0.3s; }
+  padding-bottom: 20%; }
+
+.animate {
+  animation: preview 1s ease-in-out; }
+
+.bg-decoration-1,
+.bg-decoration-2 {
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 50%; }
+
+.bg-decoration-1 {
+  bottom: 20px;
+  right: 0; }
+
+.bg-decoration-2 {
+  bottom: 50px;
+  right: 0; }
 
 .container {
   height: calc(100vh + 100px); }
@@ -82,51 +105,6 @@ body {
   transform: translate3D(0, -100px, 0) !important; }
 
 /*--------------------*\
-	Search Panel
-\*--------------------*/
-.search-panel {
-  width: 100vw;
-  z-index: 100;
-  height: 100px;
-  background-color: #f5f5f5;
-  color: #6c6c6c; }
-
-.search-form {
-  position: relative;
-  top: 50%;
-  text-align: center;
-  font-family: 'Roboto Condensed';
-  -moz-transform: translateY(-50%);
-  -ms-transform: translateY(-50%);
-  -webkit-transform: translateY(-50%);
-  transform: translateY(-50%); }
-  .search-form input {
-    padding: 5px 10px;
-    outline: none;
-    background: rgba(255, 255, 255, 0.8);
-    background: transparent;
-    border: 1px solid #6c6c6c;
-    text-transform: capitalize;
-    color: #6c6c6c;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    border-radius: 5px; }
-    .search-form input::-webkit-input-placeholder {
-      /* WebKit, Blink, Edge */
-      color: #ddd; }
-    .search-form input:-moz-placeholder {
-      /* Mozilla Firefox 4 to 18 */
-      color: #ddd;
-      opacity: 1; }
-    .search-form input::-moz-placeholder {
-      /* Mozilla Firefox 19+ */
-      color: #ddd;
-      opacity: 1; }
-    .search-form input:-ms-input-placeholder {
-      /* Internet Explorer 10-11 */
-      color: #ddd; }
-
-/*--------------------*\
 	Navbar
 \*--------------------*/
 #navbar {
@@ -134,6 +112,10 @@ body {
   top: 0;
   left: 0;
   z-index: 999;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
   width: 100%;
   height: 60px;
   font-family: 'Roboto Condensed', sans-serif;
@@ -144,28 +126,13 @@ body {
   transition: 0.3s; }
 
 .navbar__title {
-  display: inline-block;
-  position: absolute;
-  left: 10px;
-  padding-left: 5px;
-  line-height: 60px;
   font-size: 20px;
   font-weight: 400; }
 
-.navbar__refresh, .navbar__search {
-  width: 60px;
-  height: 60px;
-  display: inline-block;
-  position: absolute;
-  right: 0;
-  top: 0;
-  line-height: 60px;
-  text-align: center;
+.navbar__hamburger,
+.navbar__refresh {
   font-size: 1.5em;
   cursor: pointer; }
-
-.navbar__search {
-  right: 60px; }
 
 /*--------------------*\
 	Weather
@@ -182,7 +149,7 @@ body {
   width: 100%;
   line-height: 20px;
   padding: 10px;
-  font-size: 17px;
+  font-size: 1.5em;
   text-align: left; }
 
 .weather__center-block {
@@ -196,11 +163,11 @@ body {
 .weather__center-block__temp {
   padding: 0;
   margin-left: 10px;
-  font-size: 3em; }
+  font-size: 4em; }
 
 .weather__center-block__icon {
   padding: 0;
-  font-size: 1.5em;
+  font-size: 2em;
   vertical-align: middle; }
 
 .weather__center-block__desc {
@@ -216,16 +183,18 @@ body {
   justify-content: space-around;
   width: 100%;
   text-align: center;
-  font-size: 20px;
+  font-size: 1.5em;
   font-weight: 100;
   padding: 0 20px; }
 
-.details__wind, .details__temp {
+.details__wind, .details__misc {
   height: 100px; }
-  .details__wind p, .details__temp p {
+  .details__wind p, .details__misc p {
     margin: 5px 0;
     padding: 0;
     text-align: left; }
+  .details__wind i, .details__misc i {
+    margin-right: 5px; }
 
 .windir-icon {
   display: inline-block; }
@@ -247,9 +216,12 @@ body {
   height: 20%;
   display: flex;
   border: 1px solid rgba(255, 255, 255, 0.3); }
-  .forecast__day i {
+  .forecast__day i.sky-icon {
     font-size: 2em;
     margin-bottom: 10px; }
+
+.forecast__day-description {
+  font-weight: 100; }
 
 .forecast__day-dayName {
   font-size: 1.5em;
@@ -262,3 +234,6 @@ body {
   align-items: center; }
   .forecast__day-left p {
     font-size: 1em; }
+  .forecast__day-left p.forecast__day-wind {
+    font-size: 0.8em;
+    font-weight: 100; }

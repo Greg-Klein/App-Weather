@@ -1,67 +1,134 @@
-appWeather.controller('MainCtrl', function($scope, $http, $cordovaVibration, LocateFactory, CurrentWeatherService, $timeout, ForecastService) {
-    $scope.date = new Date();
+function degToCompass(num) {
+    var val = Math.floor((num / 22.5) + 0.5);
+    var arr = ["(N)", "(NNE)", "(NE)", "(ENE)", "(E)", "(ESE)", "(SE)", "(SSE)", "(S)", "(SSW)", "(SW)", "(WSW)", "(W)", "(WNW)", "(NW)", "(NNW)"];
+    return arr[(val % 16)] || "";
+}
+
+function getLang() {
+    return navigator.language.substring(0, 2).toLowerCase() || 'en';
+}
+
+function getWindIconColor(windSpeed) {
+    var color = 'inherit';
+    if(windSpeed >= 40) {
+        iconColor = 'orange';
+    } else if(windSpeed >= 80) {
+        iconColor = 'red';
+    }
+
+    return color;
+}
+
+function DayWeather(date) {
+    this.date = moment(date).format('ddd L');
+    this.description = '';
+    this.iconId = '';
+    this.temp = {
+        current: '',
+        max: '',
+        min: ''
+    };
+    this.wind = {
+        speed: '',
+        direction: ''
+    };
+    this.pressure = '';
+    this.humidity = '';
+}
+
+appWeather.controller('MainCtrl', function($scope, $cordovaVibration, LocationService, WeatherService, CacheService) {
+    $scope.appLang = CacheService.get('lang') || getLang();
+    CacheService.store('lang', $scope.appLang);
+    moment.locale($scope.appLang);
+    $scope.todayDate = moment().format('LL');
+
+    var storedLocation = JSON.parse(CacheService.get('location'));
+    
+    $scope.location =  storedLocation ? storedLocation : LocationService.getDefaultLocation();
+
+    $scope.getLocalWeather = function() {
+        LocationService.getCurrentLocation().then(function(location) {
+            $scope.location = location || LocationService.getDefaultLocation();
+            CacheService.store('location', JSON.stringify($scope.location));
+            $scope.queryWeather();
+            $scope.queryForecast();
+        });
+    };
 
     $scope.queryWeather = function() {
-        $scope.search();
-        $scope.searchForecast();
-    }
+        WeatherService.getWeatherFor($scope.location, $scope.appLang)
+        .then(function(data) {
+            var day = new DayWeather(new Date());
+            var windSpeed = Math.round(data.wind.speed * 3.6);
+            var iconColor = getWindIconColor(windSpeed);
 
-    function getWeather(city) {
-        $scope.loading = true;
-        CurrentWeatherService.getWeather(city).then(function(weather){
-            $scope.today = weather;
-            $scope.loading = false;
-            var windspeed = Math.round(weather.wind.speed * 3.6);
-            if(windspeed >= 90){
-            	$('#windspeed-icon').css({color: 'red'});
-            } else if(windspeed >= 60){
-            	$('#windspeed-icon').css({color: 'orange'});
-            }
-            $('#windir-icon').css({transform: 'rotate(' + Math.round($scope.today.wind.deg) + 'deg)'});
+            day.temp.current = Math.round(data.main.temp);
+            day.iconId = data.weather[0].id;
+            day.description = data.weather[0].description;
+            day.wind.speed = windSpeed;
+            day.wind.direction = Math.round(data.wind.deg);
+            day.wind.directionStr = degToCompass(data.wind.deg);
+            day.wind.iconAngle = 'rotate(' + day.wind.direction + 'deg)';
+            day.wind.iconColor = iconColor;
+            day.pressure = data.main.pressure;
+            day.humidity = data.main.humidity;
+
+            $scope.w = day;
+            $scope.isLoading = false;
+            $scope.$parent.animTrigger = true;
         }, function(msg){
             $cordovaVibration.vibrate(100);
             alert(msg);
-            $scope.loading = false;
+            $scope.isLoading = false;
         });
-    }
-
-    $scope.search = function(){
-        if ($scope.city == undefined){
-        	$scope.city = window.localStorage.getItem("AppWeatherCity") || 'Paris';
-            window.localStorage.setItem("AppWeatherCity", $scope.city);
-        } else {
-        	window.localStorage.setItem("AppWeatherCity", $scope.city);
-        }
-
-        getWeather($scope.city);
     };
 
-    $scope.searchByPosition = function() {
-        getWeather(LocateFactory.getCity()+","+LocateFactory.getCountry());
-    };
+    $scope.queryForecast = function() {
+        WeatherService.getForecastFor($scope.location, $scope.appLang)
+        .then(function(data) {
+            var days = [];
+            data.list.forEach(function(item) {
+                var date = new Date(item.dt * 1000);
+                if(moment(date).isAfter(moment(), 'day')) {
+                    var day = new DayWeather(new Date(item.dt * 1000));
+                    var windSpeed = Math.round(item.speed * 3.6);
+                    var iconColor = getWindIconColor(windSpeed);
 
-    $scope.searchForecast = function() {
-        if ($scope.city == undefined){
-            $scope.city = window.localStorage.getItem("AppWeatherCity") || 'Paris';
-            window.localStorage.setItem("AppWeatherCity", $scope.city);
-        } else {
-            window.localStorage.setItem("AppWeatherCity", $scope.city);
-        }
+                    day.temp.min = Math.round(item.temp.min);
+                    day.temp.max = Math.round(item.temp.max);
+                    day.description = item.weather[0].description;
+                    day.iconId = item.weather[0].id;
+                    day.wind.speed = windSpeed;
+                    day.wind.direction = Math.round(item.deg);
+                    day.wind.directionStr = degToCompass(item.deg);
+                    day.wind.iconAngle = 'rotate(' + day.wind.direction + 'deg)';
+                    day.wind.iconColor = iconColor;
 
-        $scope.Math = Math;
-        $scope.loading = true;
-        $scope.forecast = ForecastService.getWeather($scope.city).then(function(weather){
-            $scope.forecast = weather.list;
-            $scope.loading = false;
+                    days.push(day);
+                } else if(moment(date).isSame(moment(), 'day')) {
+                    $scope.$parent.todayMinTemp = Math.round(item.temp.min);
+                    $scope.$parent.todayMaxTemp = Math.round(item.temp.max);
+                }
+            });
+
+            $scope.dayList = days;
+
+            $scope.isLoading = false;
         }, function(msg){
             $cordovaVibration.vibrate(100);
             alert(msg);
-            $scope.loading = false;
+            $scope.isLoading = false;
         });
-    }
+    };
+    
+})
 
-    $scope.Math = Math;
-    $scope.search();
-    $scope.searchForecast();
+.controller('TodayCtrl', function($scope) {
+    $scope.isLoading = true;
+    $scope.$parent.queryWeather();
+})
 
+.controller('ForecastCtrl', function($scope) {
+    $scope.isLoading = true;
+    $scope.$parent.queryForecast();    
 });
