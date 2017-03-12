@@ -105,6 +105,54 @@ body {
   transform: translate3D(0, -100px, 0) !important; }
 
 /*--------------------*\
+	Side Menu
+\*--------------------*/
+.sidemenu {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  width: 100vw;
+  height: 100vh;
+  padding: 0 20px;
+  background-color: rgba(0, 0, 0, 0.8); }
+  .sidemenu .back-icon {
+    padding: 10px; }
+
+.sidemenu__addbookmark {
+  display: flex;
+  margin: 20px 0; }
+  .sidemenu__addbookmark * {
+    height: 40px; }
+  .sidemenu__addbookmark input,
+  .sidemenu__addbookmark button {
+    padding: 0 10px;
+    background: transparent;
+    border: 1px solid #ccc;
+    outline: none; }
+  .sidemenu__addbookmark input {
+    width: calc(100% - 40px); }
+  .sidemenu__addbookmark button {
+    width: 40px;
+    line-height: 40px;
+    color: #ccc; }
+
+.sidemenu__bookmark-list {
+  display: flex;
+  flex-flow: column nowrap; }
+
+.sidemenu__bookmark {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 60px;
+  font-size: 1.2em;
+  font-weight: 100; }
+  .sidemenu__bookmark:not(:last-child) {
+    border-bottom: 1px solid #ccc; }
+
+/*--------------------*\
 	Navbar
 \*--------------------*/
 #navbar {

@@ -43,6 +43,24 @@ appWeather.controller('MainCtrl', function($scope, $cordovaVibration, LocationSe
     $scope.todayDate = moment().format('LL');
 
     var storedLocation = JSON.parse(CacheService.get('location'));
+
+    $scope.bookmarks = JSON.parse(CacheService.get('bookmarks'));
+
+    $scope.bookmarks = [
+        {
+            city: 'Toulouse'
+        },
+        {
+            city: 'Paris'
+        },
+        {
+            city: 'Montauban'
+        }
+    ]
+
+    $scope.deleteBookmark = function(i) {
+        $scope.bookmarks.splice(i, 1);
+    };
     
     $scope.location =  storedLocation ? storedLocation : LocationService.getDefaultLocation();
 

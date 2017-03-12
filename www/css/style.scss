@@ -137,6 +137,71 @@ body {
 }
 
 /*--------------------*\
+	Side Menu
+\*--------------------*/
+
+.sidemenu {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 1000;
+	width: 100vw;
+	height: 100vh;
+	padding: 0 20px;
+	background-color: rgba(#000, 0.8);
+
+	.back-icon {
+		padding: 10px;
+	}
+}
+
+.sidemenu__addbookmark {
+	display: flex;
+	margin: 20px 0;
+
+	* {
+		height: 40px;
+	}
+
+	input,
+	button {
+		padding: 0 10px;
+		background: transparent;
+		border: 1px solid #ccc;
+		outline: none;
+	}
+
+	input {
+		width: calc(100% - 40px);
+	}
+
+	button {
+		width: 40px;
+		line-height: 40px;
+		color: #ccc;
+	}
+}
+
+.sidemenu__bookmark-list {
+	display: flex;
+	flex-flow: column nowrap;
+}
+
+.sidemenu__bookmark {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	height: 60px;
+	font-size: 1.2em;
+	font-weight: 100;
+
+	&:not(:last-child) {
+		border-bottom: 1px solid #ccc;
+	}
+}
+
+/*--------------------*\
 	Navbar
 \*--------------------*/
 
