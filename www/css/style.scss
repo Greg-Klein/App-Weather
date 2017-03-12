@@ -149,6 +149,12 @@ body {
 	height: 100vh;
 	padding: 0 20px;
 	background-color: rgba(#000, 0.8);
+	transform: translateX(-100%);
+	transition: transform 0.3s ease-in-out;
+
+	&.deployed {
+		transform: translateX(0);
+	}
 
 	.back-icon {
 		padding: 10px;
@@ -167,12 +173,13 @@ body {
 	button {
 		padding: 0 10px;
 		background: transparent;
-		border: 1px solid #ccc;
 		outline: none;
+		border: none;
 	}
 
 	input {
 		width: calc(100% - 40px);
+		border-bottom: 1px solid #ccc;
 	}
 
 	button {
@@ -180,6 +187,14 @@ body {
 		line-height: 40px;
 		color: #ccc;
 	}
+}
+
+.sidemenu__bookmark__container {
+	width: 100%;
+	height: calc(100vh - 150px);
+	padding-bottom: 30px;
+	overflow-y: auto;
+	overflow-x: hidden;
 }
 
 .sidemenu__bookmark-list {
@@ -195,9 +210,10 @@ body {
 	height: 60px;
 	font-size: 1.2em;
 	font-weight: 100;
+	border-bottom: 1px solid rgba(#fff, 0.2);
 
-	&:not(:last-child) {
-		border-bottom: 1px solid #ccc;
+	&:first-child {
+		border-top: 1px solid rgba(#fff, 0.2);
 	}
 }
 

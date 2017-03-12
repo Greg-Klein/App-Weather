@@ -24,24 +24,26 @@
                     <div class="spinner"></div>
                 </div>
                 <navigation id="navbar">
-                    <i class="navbar__hamburger fa fa-bars"></i>
+                    <i class="navbar__hamburger fa fa-bars" ng-click="deployMenu()"></i>
                     <div class="navbar__title" ng-bind="todayDate"></div>
                     <i class="navbar__refresh fa fa-location-arrow" ng-click="getLocalWeather()"></i>
                 </navigation>
-                <aside class="sidemenu">
-                    <i class="fa fa-2x fa-angle-left back-icon"></i>
+                <aside class="sidemenu swiper-no-swiping" ng-class="{deployed: isInMenu}">
+                    <i class="fa fa-2x fa-angle-left back-icon" ng-click="deployMenu()"></i>
                     <div class="sidemenu__addbookmark">
-                        <input type="text" name="city" placeholder="City">
-                        <button type="button">
+                        <input type="text" name="city" placeholder="City" ng-model="tempBookmark.city" ng-keyup="$event.keyCode == 13 && addBookmark()">
+                        <button type="button" ng-click="addBookmark()">
                             <i class="fa fa-plus"></i>
                         </button>
                     </div>
-                    <ul class="sidemenu__bookmark-list">
-                        <li class="sidemenu__bookmark" ng-repeat="location in bookmarks">
-                            <span>{{location.city}}</span>
-                            <i class="fa fa-minus-circle" ng-click="deleteBookmark($index)"></i>
-                        </li>
-                    </ul>
+                    <div class="sidemenu__bookmark__container">
+                        <ul class="sidemenu__bookmark-list">
+                            <li class="sidemenu__bookmark" ng-repeat="location in bookmarks track by $index">
+                                <span ng-click="setLocationFromBm($index)">{{location.city}}</span>
+                                <i class="fa fa-minus-circle" ng-click="deleteBookmark($index)"></i>
+                            </li>
+                        </ul>
+                    </div>
                 </aside>
                 <div class="slider swiper-wrapper" ng-class="{animate: animTrigger}">
                     <section id="weather" class="swiper-slide" ng-controller="TodayCtrl">

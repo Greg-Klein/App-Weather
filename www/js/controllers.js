@@ -44,22 +44,33 @@ appWeather.controller('MainCtrl', function($scope, $cordovaVibration, LocationSe
 
     var storedLocation = JSON.parse(CacheService.get('location'));
 
-    $scope.bookmarks = JSON.parse(CacheService.get('bookmarks'));
+    $scope.isInMenu = false;
 
-    $scope.bookmarks = [
-        {
-            city: 'Toulouse'
-        },
-        {
-            city: 'Paris'
-        },
-        {
-            city: 'Montauban'
-        }
-    ]
+    $scope.deployMenu = function() {
+        $scope.isInMenu = !$scope.isInMenu;
+    };
+
+    $scope.bookmarks = JSON.parse(CacheService.get('bookmarks')) || [];
+
+    $scope.setLocationFromBm = function(i) {
+        $scope.location = $scope.bookmarks[i];
+        CacheService.store('location', JSON.stringify($scope.location));
+        $scope.queryWeather();
+        $scope.queryForecast();
+        $scope.isInMenu = false;
+    };
 
     $scope.deleteBookmark = function(i) {
         $scope.bookmarks.splice(i, 1);
+    };
+
+    $scope.addBookmark = function() {
+        LocationService.validateLocation($scope.tempBookmark).then(function(location) {
+            $scope.location = location;
+            $scope.bookmarks.push(location);
+            CacheService.store('bookmarks', JSON.stringify($scope.bookmarks));
+            $scope.tempBookmark = {};
+        });
     };
     
     $scope.location =  storedLocation ? storedLocation : LocationService.getDefaultLocation();

@@ -11,6 +11,7 @@ appWeather.service('LocationService', function($http, $q) {
             
             $http.get(url)
                 .success(function(response){
+                    var location = {};
                     location.city = response.results[0].address_components[2].short_name;
                     location.country = response.results[0].address_components[5].short_name;
                     location.lon = position.coords.longitude;
@@ -34,7 +35,27 @@ appWeather.service('LocationService', function($http, $q) {
         location.lon = '2.351828';
         location.lat = '48.856578';
         return location;
-    }
+    };
+
+    this.validateLocation = function(loc) {
+        var deferred = $q.defer();
+        var url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + loc.city;
+
+        $http.get(url)
+            .success(function(response){
+                var location = {};
+                location.city = response.results[0].address_components[0].short_name;
+                location.country = response.results[0].address_components[3].short_name;
+                location.lon = response.results[0].geometry.location.lng;
+                location.lat = response.results[0].geometry.location.lat;
+                deferred.resolve(location);
+            })
+            .error(function(error) {
+                deferred.reject('Ville inconnue');
+            });
+        
+        return deferred.promise;
+    };
 })
 
 .service('WeatherService', function($http, $q) {

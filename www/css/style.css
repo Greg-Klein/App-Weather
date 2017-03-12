@@ -115,7 +115,11 @@ body {
   width: 100vw;
   height: 100vh;
   padding: 0 20px;
-  background-color: rgba(0, 0, 0, 0.8); }
+  background-color: rgba(0, 0, 0, 0.8);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-in-out; }
+  .sidemenu.deployed {
+    transform: translateX(0); }
   .sidemenu .back-icon {
     padding: 10px; }
 
@@ -128,14 +132,22 @@ body {
   .sidemenu__addbookmark button {
     padding: 0 10px;
     background: transparent;
-    border: 1px solid #ccc;
-    outline: none; }
+    outline: none;
+    border: none; }
   .sidemenu__addbookmark input {
-    width: calc(100% - 40px); }
+    width: calc(100% - 40px);
+    border-bottom: 1px solid #ccc; }
   .sidemenu__addbookmark button {
     width: 40px;
     line-height: 40px;
     color: #ccc; }
+
+.sidemenu__bookmark__container {
+  width: 100%;
+  height: calc(100vh - 150px);
+  padding-bottom: 30px;
+  overflow-y: auto;
+  overflow-x: hidden; }
 
 .sidemenu__bookmark-list {
   display: flex;
@@ -148,9 +160,10 @@ body {
   width: 100%;
   height: 60px;
   font-size: 1.2em;
-  font-weight: 100; }
-  .sidemenu__bookmark:not(:last-child) {
-    border-bottom: 1px solid #ccc; }
+  font-weight: 100;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2); }
+  .sidemenu__bookmark:first-child {
+    border-top: 1px solid rgba(255, 255, 255, 0.2); }
 
 /*--------------------*\
 	Navbar
